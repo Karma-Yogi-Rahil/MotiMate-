@@ -1,11 +1,14 @@
 import requests
 from logger import logger
 import random
+from dotenv import load_dotenv
+import os
 
 
-OLLAMA_HOST = "http://127.0.0.1:11434"  # Default for local Ollama server
 
-
+load_dotenv()
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "phi")
 
 def generate_prompt():
     variations = [
@@ -14,12 +17,12 @@ def generate_prompt():
         "Create a fresh, inspiring quote in less than 15 words.",
         "Suggest a powerful motivational message, max 15 words.",
     ]
-    return random.choice(variations)
+
+    prompt = random.choice(variations)
+    logger.debug(f"Generated prompt -> {prompt}")
+    return prompt
 
 def get_quote(model="phi"):
-    """
-    Generate a short motivational quote using a local LLM via Ollama HTTP API.
-    """
     prompt = generate_prompt()
 
     try:
@@ -37,17 +40,14 @@ def get_quote(model="phi"):
         )
         if response.status_code == 200:
             quote = response.json().get("response", "").strip()
-            print(f"Quote: {quote}")
+            logger.info(f"Generated quote: {quote}")
             return quote
         else:
-            print(f"Error from Ollama ({response.status_code}):", response.text)
-
+            logger.error(f"Error from Ollama ({response.status_code}):", response.text)
             return None
 
     except requests.exceptions.RequestException as e:
-        print("Could not connect to Ollama:", e)
         logger.error("Could not connect to Ollama:", e)
         return None
-
-logger.info("📝 This is a test log entry.")
-get_quote("DF")
+    except Exception as e:
+        logger.critical(f"Ollama ({response.status_code}):", e)
