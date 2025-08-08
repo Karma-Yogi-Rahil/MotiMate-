@@ -1,1 +1,7 @@
 src/.env
+/src/__pycache__
+/src/assets
+src/insta_settings.json
+/src/logs
+/src/logs
+/src/output
