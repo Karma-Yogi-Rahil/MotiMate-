@@ -4,6 +4,7 @@
 MotiMate creates and posts motivational videos to Instagram Reels using AI-generated quotes, aesthetic backgrounds, and smart styling — all on autopilot.
 
 ---
+**Follow the daily uploads on Instagram:** [@moti.mate](https://www.instagram.com/moti.matenow/)
 
 ## **BETA NOTICE**
 **This is a beta release.** Expect bugs, Instagram API quirks, and limitations:  
@@ -32,12 +33,6 @@ Author automatically positioned for a clean, cinematic look.
 ---
 
 ## Installation
-
-Method 1
-
-
-Method 2 
-
 #### 1. Prerequisites
 	•	Python 3.11+
 	•	pip (latest version)
@@ -47,31 +42,58 @@ After installing, pull your model:
 ollama pull phi
 ```
 
-
-#### 1. Clone the repo
+#### 2. Clone the repo
 ```bash
 git clone https://github.com/yourusername/motimate.git
 cd motimatepipreqs . --force
 ```
+
+
+
+### Method 1
+#### 3. Build Docker images
+```
+docker compose build
+```
+#### 4. Running the system
+
+```
+docker compose up -d
+```
+If you want to manually run inside the container (without waiting for the scheduler), you can do it like this:
+
+##### Option 1 — Run inside running container
+If motimate container is already running:
+```
+docker compose exec motimate sh -lc 'cd /app && python src/main.py'
+```
+
+##### Option 2 — Run one-off container
+If the container is stopped or you don’t want the scheduler at all:
+```
+docker compose run motimate python src/main.py
+```
+
+### Method 2 
+
 Create & Activate a Virtual Environment (Recommended)
 ```
-# Create virtual environment
+### Create virtual environment
 python3 -m venv venv
-
-# Activate (Mac/Linux)
+#### Activate (Mac/Linux)
 source venv/bin/activate
-
-# Activate (Windows)
+#### Activate (Windows)
 venv\Scripts\activate
 ```
-#### 2. Install Dependencies
+
+#### 3. Install Dependencies
 ```
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
 
-#### 3. Set up Environment Variables
+#### 4. Set up Environment Variables
 ```
 OLLAMA_HOST=your_local_ollama_server
 OLLAMA_MODEL=your_local_model_name
@@ -80,7 +102,8 @@ IG_USERNAME=your_instagram_username
 IG_PASSWORD=your_instagram_password
 ```
 
-#### 4. Run MotiMate
+#### 5. Run MotiMate
 ```
 python src/main.py
 ```
+
