@@ -12,7 +12,11 @@ PEXELS_VIDEO_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def get_background_video(query="nature", duration_limit=15):
+    if "\n" in query:
+        query = query.split("\n", 1)[0].strip()
+
     logger.info(f"Searching Pexels for: {query}")
+    #logger.info(f"Searching Pexels for: {query}")
 
     headers = {
         "Authorization": PEXELS_API_KEY
