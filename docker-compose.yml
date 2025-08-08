@@ -17,6 +17,8 @@ services:
     environment:
       OLLAMA_HOST: http://ollama:11434
       INSTA_SETTINGS_PATH: /app/data/insta_settings.json
+      RUN_TIME: "17:00"        # container local time (IST if TZ=Asia/Kolkata)
+      RUN_CMD: "python src/main.py"
     volumes:
       - ./data:/app/data
       - ./output:/app/output
